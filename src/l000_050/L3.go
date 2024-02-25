@@ -1,5 +1,7 @@
 package main
 
+import "strings"
+
 func singleNumber(nums []int) int {
 	res := 0
 	for n := range nums {
@@ -73,4 +75,58 @@ func merge(nums1 []int, m int, nums2 []int, n int) {
 		n--
 		right--
 	}
+}
+
+// 3042
+func countPrefixSuffixPairs(words []string) int {
+	res := 0
+	for i := 0; i < len(words); i++ {
+		for j := i + 1; j < len(words); j++ {
+			if isMatch(words[i], words[j]) {
+				res++
+			}
+		}
+	}
+	return res
+}
+
+func isMatch(word1, word2 string) bool {
+	return strings.HasPrefix(word2, word1) && strings.HasSuffix(word2, word1)
+}
+
+// 3038
+func maxOperations(nums []int) int {
+	if len(nums) < 2 {
+		return 0
+	}
+	res := 1
+	sum := nums[0] + nums[1]
+	for i := 2; i < len(nums)-1; i += 2 {
+		if sum == nums[i]+nums[i+1] {
+			res++
+		} else {
+			break
+		}
+	}
+	return res
+}
+
+// 3010
+func minimumCost(nums []int) int {
+	res := 150
+
+	left, right := 1, len(nums)-1
+
+	for left < right {
+		if res > nums[left]+nums[right] {
+			res = nums[left] + nums[right]
+		}
+		if nums[left] < nums[right] {
+			right--
+		} else {
+			left++
+		}
+	}
+
+	return res + nums[0]
 }
